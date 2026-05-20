@@ -17,6 +17,8 @@ Nesne yaratma sorumluluğu ana iş mantığından ayrılmalıydı.
   üzerinden çalışıyor.
   
   
+  
+  
 ## Faz 2: Structural — Decorator Pattern
 
 ### Nerede uygulandı?
@@ -44,3 +46,36 @@ Facade bu karmaşıklığı gizleyip tek bir basit arayüz sunuyor.
 - Dışarıdan kullanan kod sadece facade.emailGonder() yazıyor.
 - Factory ve Decorator detayları gizlendi.
 - Sistem genişlese bile dış arayüz değişmiyor.
+
+
+
+
+## Faz 3: Behavioral — Observer Pattern
+
+### Nerede uygulandı?
+`BildirimYayinci`, `BildirimGozlemci`, `EmailGozlemci`, `SmsGozlemci` sınıflarında.
+
+### Neden uygulandı?
+Bir event olduğunda (sipariş onayı gibi) tüm kanalların tek tek 
+çağrılması gerekiyordu. Observer ile yayıncı gözlemcileri tanımadan 
+hepsini tetikliyor.
+
+### Ne kazanıldı?
+- Yeni kanal eklemek için sadece yeni gözlemci yazılıyor, mevcut kod değişmiyor.
+- OCP sağlandı: BildirimYayinci hiç değişmeden genişletilebilir.
+
+## Faz 3: Behavioral — Strategy Pattern
+
+### Nerede uygulandı?
+`MesajFormatlayici`, `KisaFormat`, `HtmlFormat`, 
+`FormatliBildirimGonderici` sınıflarında.
+
+### Neden uygulandı?
+Mesaj formatı runtime'da değişmesi gerekiyordu. 
+if-else ile format seçmek yerine Strategy ile algoritma 
+dışarıdan enjekte edildi.
+
+### Ne kazanıldı?
+- setFormatlayici() ile format runtime'da değiştirilebildi.
+- Yeni format eklemek için mevcut kod değişmiyor, sadece 
+  yeni sınıf yazılıyor. OCP tam olarak burada gösterildi.
